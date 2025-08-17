@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Moonchester {
 
     public static void userGreeting () {
@@ -12,6 +14,7 @@ public class Moonchester {
 
     public static void userExit () {
         String exitMessage = """
+        ____________________________________________________________
         Hope to see you again soon, goodbye!
         ____________________________________________________________
         """;
@@ -19,7 +22,17 @@ public class Moonchester {
     }
 
     public static void main(String[] args) {
-        userGreeting();
+        while (true) {
+            userGreeting();
+            Scanner userCommand_Obj = new Scanner(System.in); 
+            System.out.print("Command: ");
+            String userCommand = userCommand_Obj.nextLine(); 
+            System.out.println("User's command: " + userCommand); 
+            if (userCommand.equals("bye")) {
+                break;
+            }
+        }
         userExit();
+
     }
 }
