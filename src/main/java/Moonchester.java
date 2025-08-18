@@ -42,7 +42,6 @@ public class Moonchester {
             else if (userItem.equals("bye")) {
                 break;
             }
-
             else {
                 userList.addItem(userItem);
                 System.out.println("[+] Added : " + userItem);
