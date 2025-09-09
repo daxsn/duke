@@ -22,11 +22,26 @@ public class Moonchester {
     public static void printList (userList userList) {
         System.out.println("[+] User's List");
         int counter = 1;
-        for (String item : userList.getList()) {
-            System.out.println(counter + ". " + item);
+        for (Task item : userList.getList()) {
+            System.out.println(counter + ". " + "[" + item.getStatusIcon() + "] " + item.getDescription());
             counter++;
         }
         System.out.println("____________________________________________________________");
+    }
+
+    public static void handleMarking (userList userList, String userItem, boolean status) {
+        String delimiter = " ";
+        String[] userItem_split = userItem.split(delimiter);
+        int index = Integer.parseInt(userItem_split[1]);
+        if (userList.getSize() > index && index > 0) {
+            userList.getSpecificTask(index).setStatus(status);
+            System.out.println("[+] Marked as completed: " + userList.getSpecificTask(index).getDescription());
+            System.out.println("____________________________________________________________");
+        }
+        else {
+            System.out.println("[!] Please select a valid S/N");
+            System.out.println("____________________________________________________________");
+        }
     }
 
     public static void main(String[] args) {
@@ -34,6 +49,7 @@ public class Moonchester {
         userList userList = new userList();
         userGreeting();
         while (true) {
+            String delimiter = " ";
             System.out.print("Command / Add : ");
             String userItem = userCommand_Obj.nextLine();
             if (userItem.equals("list")) {
@@ -42,8 +58,15 @@ public class Moonchester {
             else if (userItem.equals("bye")) {
                 break;
             }
+            else if (userItem.startsWith("mark")) {
+                handleMarking(userList, userItem, true);
+            }
+            else if (userItem.startsWith("unmark")) {
+                handleMarking(userList, userItem, false);
+            }
             else {
-                userList.addItem(userItem);
+                Task new_task = new Task(userItem);
+                userList.addItem(new_task);
                 System.out.println("[+] Added : " + userItem);
                 System.out.println("____________________________________________________________");
             }
