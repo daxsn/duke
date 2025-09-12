@@ -1,15 +1,18 @@
 import java.util.ArrayList;
 
-public class userList {
+public class UserList {
 
-    private ArrayList<Task> userList = new ArrayList<Task>();
+    private ArrayList<Task> userList = new ArrayList<>();
 
-    public userList() {
+    public UserList() {
         userList = new ArrayList<>();
     }
 
     public void addItem (Task item) {
         userList.add(item);
+        System.out.println("[+] Added : " + item.printString());
+        System.out.println("[*] You have a total of " + this.getSize() + " task(s)");
+        System.out.println("____________________________________________________________");
     }
 
     public ArrayList<Task> getList () {
