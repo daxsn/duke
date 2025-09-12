@@ -23,7 +23,7 @@ public class Moonchester {
         System.out.println("[+] User's List");
         int counter = 1;
         for (Task item : userList.getList()) {
-            System.out.println(counter + ". " + "[" + item.getStatusIcon() + "] " + item.getDescription());
+            System.out.println(counter + ". " + item.printString());
             counter++;
         }
         System.out.println("____________________________________________________________");
@@ -33,7 +33,7 @@ public class Moonchester {
         String delimiter = " ";
         String[] userItem_split = userItem.split(delimiter);
         int index = Integer.parseInt(userItem_split[1]);
-        if (userList.getSize() > index && index > 0) {
+        if (userList.getSize() >= index && index > 0) {
             userList.getSpecificTask(index).setStatus(status);
             System.out.println("[+] Marked as completed: " + userList.getSpecificTask(index).getDescription());
             System.out.println("____________________________________________________________");
@@ -49,7 +49,6 @@ public class Moonchester {
         userList userList = new userList();
         userGreeting();
         while (true) {
-            String delimiter = " ";
             System.out.print("Command / Add : ");
             String userItem = userCommand_Obj.nextLine();
             if (userItem.equals("list")) {

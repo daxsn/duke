@@ -25,4 +25,9 @@ public class Task {
         this.status = status;
     }
 
+    // For other subclasses to override
+    public String printString() {
+        return "[" + getStatusIcon() + "] " + getDescription();
+    }
+
 }
