@@ -128,6 +128,6 @@ public class Moonchester {
             }
         }
         userExit();
-
+        userCommand_Obj.close();
     }
 }
