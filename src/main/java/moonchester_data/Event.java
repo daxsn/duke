@@ -1,3 +1,5 @@
+package moonchester_data;
+
 public class Event extends Task {
 
     protected String from;

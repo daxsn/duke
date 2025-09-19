@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Scanner;
+import moonchester_data.*;
 
 public class Moonchester {
 
@@ -32,9 +33,16 @@ public class Moonchester {
 
     public static void handleMarking (UserList userList, String[] userItem_split, boolean status) {
         int index = Integer.parseInt(userItem_split[1]);
+        String status_description = "";
+        if (status == false) {
+            status_description = "not completed";
+        }
+        else {
+            status_description = "completed";
+        }
         if (userList.getSize() >= index && index > 0) {
             userList.getSpecificTask(index).setStatus(status);
-            System.out.println("[+] Marked as completed: " + userList.getSpecificTask(index).getDescription());
+            System.out.println("[+] Marked as " + status_description + " : " + userList.getSpecificTask(index).getDescription());
             System.out.println("____________________________________________________________");
         }
         else {

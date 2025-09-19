@@ -1,3 +1,5 @@
+package moonchester_data;
+
 import java.util.ArrayList;
 
 public class UserList {
