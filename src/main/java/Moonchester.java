@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 import moonchester_data.*;
+import moonchester_utils.MoonchesterException;
 
 public class Moonchester {
 
@@ -65,6 +66,7 @@ public class Moonchester {
         results[1]   = event_array_parts[1].trim();
         return results;
     }
+    
     // For deadline and event, to make a copy of task description and join them back
     private static String joinFromSecond(String[] task_description) {
         if (task_description.length <= 1) {
@@ -84,21 +86,33 @@ public class Moonchester {
 
     // Deadline
     public static void addDeadline(UserList userList, String task_description) {
-        String[] splitted_string = stringSplitter(task_description, "/by");
-        Deadline new_deadline = new Deadline(splitted_string[0], splitted_string[1].replace(" ", ""));
-        userList.addItem(new_deadline);
+        try {
+            String[] splitted_string = stringSplitter(task_description, "/by");
+            Deadline new_deadline = new Deadline(splitted_string[0], splitted_string[1].replace(" ", ""));
+            userList.addItem(new_deadline);
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("[!] Deadline appears to have missing parameters, please follow this format : deadline [description] /by [day]");
+        }
+
     }
 
     //Event
     public static void addEvent(UserList userList, String task_description) {
-        String[] description_array = stringSplitter(task_description, "/from");
-        String description = description_array[0];
-        String[] results = eventExtractor(description_array[1]);
-        Event new_event = new Event(description, results[0], results[1]);
-        userList.addItem(new_event);
+        try {
+            String[] description_array = stringSplitter(task_description, "/from");
+            String description = description_array[0];
+            String[] results = eventExtractor(description_array[1]);
+            Event new_event = new Event(description, results[0], results[1]);
+            userList.addItem(new_event);
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("[!] Event appears to have missing parameters, , please follow this format : event [description] /from [day] [time] /to [time]");
+        }
+
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MoonchesterException{
         Scanner userCommand_Obj = new Scanner(System.in); 
         UserList userList = new UserList();
         userGreeting();
@@ -106,34 +120,37 @@ public class Moonchester {
             System.out.print("Command / Add : ");
             String userItem = userCommand_Obj.nextLine();
             String[] splitted_string = stringSplitter(userItem, " ");
+            try {
+                if (splitted_string[0].equals("list")) {
+                    printList(userList);
+                }
+                else if (splitted_string[0].equals("exit")) {
+                    break;
+                }
+                else if (splitted_string[0].startsWith("mark")) {
+                    handleMarking(userList, splitted_string, true);
+                }
+                else if (splitted_string[0].startsWith("unmark")) {
+                    handleMarking(userList, splitted_string, false);
+                }
+                else if (splitted_string[0].startsWith("todo")) {
+                    addTodo(userList, splitted_string);
+                }
+                else if (splitted_string[0].startsWith("deadline")) {
+                    String task_description = joinFromSecond(splitted_string);
+                    addDeadline(userList, task_description);
+                }
+                else if (splitted_string[0].startsWith("event")) {
+                    String task_description = joinFromSecond(splitted_string);
+                    addEvent(userList, task_description);
+                }
+                else {
+                    throw new MoonchesterException("[!] Unknown Command. Permitted Commands : todo, deadline, event, list, mark, unmark, exit");
+                }
+            } catch (MoonchesterException e) {
+                System.out.println(e.getMessage());
+            }
 
-            if (splitted_string[0].equals("list")) {
-                printList(userList);
-            }
-            else if (splitted_string[0].equals("bye")) {
-                break;
-            }
-            else if (splitted_string[0].startsWith("mark")) {
-                handleMarking(userList, splitted_string, true);
-            }
-            else if (splitted_string[0].startsWith("unmark")) {
-                handleMarking(userList, splitted_string, false);
-            }
-            else if (splitted_string[0].startsWith("todo")) {
-                addTodo(userList, splitted_string);
-            }
-            else if (splitted_string[0].startsWith("deadline")) {
-                String task_description = joinFromSecond(splitted_string);
-                addDeadline(userList, task_description);
-            }
-            else if (splitted_string[0].startsWith("event")) {
-                String task_description = joinFromSecond(splitted_string);
-                addEvent(userList, task_description);
-            }
-            else {
-                Task new_task = new Task(userItem);
-                userList.addItem(new_task);
-            }
         }
         userExit();
         userCommand_Obj.close();

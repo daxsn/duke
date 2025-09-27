@@ -1,10 +1,14 @@
 package moonchester_data;
+import moonchester_utils.MoonchesterException;
 
 public class Task {
     protected String description;
     protected boolean status;
 
-    public Task(String description) {
+    public Task(String description) throws MoonchesterException{
+        if (description.trim().isEmpty() == true || description == null) {
+            throw new MoonchesterException("[!] Description cannot be empty.");
+        }
         this.description = description;
         this.status = false;
     }
