@@ -3,7 +3,6 @@ package moonchester_utils;
 import java.util.Arrays;
 import java.util.Scanner;
 import moonchester_data.*;
-import moonchester_utils.*;
 
 public class MoonchesterHandler {
     private final Scanner scanner;
@@ -25,14 +24,22 @@ public class MoonchesterHandler {
             try {
                 String command = splittedString[0].toLowerCase();
                 switch (command) {
-                    case "list" -> printList();
-                    case "exit" -> { userExit(); return; }
-                    case "mark" -> handleMarking(splittedString, true);
-                    case "unmark" -> handleMarking(splittedString, false);
-                    case "todo" -> addTodo(splittedString);
-                    case "deadline" -> addDeadline(joinFromSecond(splittedString));
-                    case "event" -> addEvent(joinFromSecond(splittedString));
-                    default -> throw new MoonchesterException("[!] Unknown Command. Permitted Commands : todo, deadline, event, list, mark, unmark, exit");
+                    case "list" : printList(); break;
+                    case "exit" : { userExit(); return; }
+                    case "mark" : handleMarking(splittedString, true); break;
+                    case "unmark" : handleMarking(splittedString, false); break;
+                    case "todo" : addTodo(splittedString); break;
+                    case "deadline" : addDeadline(joinFromSecond(splittedString)); break;
+                    case "event" : addEvent(joinFromSecond(splittedString)); break;
+                    case "delete" : {
+                        try {
+                            handleDelete(Integer.parseInt(splittedString[1]));
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            throw new MoonchesterException("[!] Please select a valid S/N");
+                        }
+                        break;
+                    }
+                    default : throw new MoonchesterException("[!] Unknown Command. Permitted Commands : todo, deadline, event, list, mark, unmark, exit");
                 }
             } catch (MoonchesterException e) {
                 System.out.println(e.getMessage());
@@ -100,6 +107,23 @@ public class MoonchesterHandler {
         }
     }
 
+    private void handleDelete(int array_index) {
+        try {
+            userList.deleteItem(array_index - 1, userList.getSpecificTask(array_index));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("[!] Ensure that the S/N is valid.");
+        }
+        
+    }
+
+    private String[] eventExtractor(String eventArray) {
+        String[] results = new String[2];
+        String[] eventArrayParts = eventArray.split("/to");
+        results[0] = eventArrayParts[0].replace("/from", "").trim();
+        results[1] = eventArrayParts[1].trim();
+        return results;
+    }
+
     private void addTodo(String[] splitted_string) {
         String[] task_description_array = Arrays.copyOfRange(splitted_string, 1, splitted_string.length);
         String task_description = String.join(" ", task_description_array);
@@ -131,11 +155,5 @@ public class MoonchesterHandler {
 
     }
 
-    private String[] eventExtractor(String eventArray) {
-        String[] results = new String[2];
-        String[] eventArrayParts = eventArray.split("/to");
-        results[0] = eventArrayParts[0].replace("/from", "").trim();
-        results[1] = eventArrayParts[1].trim();
-        return results;
-    }
+
 }
