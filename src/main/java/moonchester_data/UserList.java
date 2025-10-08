@@ -17,6 +17,13 @@ public class UserList {
         System.out.println("____________________________________________________________");
     }
 
+    public void deleteItem (int item_index, Task item) {
+        userList.remove(item_index);
+        System.out.println("[+] Deleted : " + item.printString());
+        System.out.println("[*] You have a total of " + this.getSize() + " task(s)");
+        System.out.println("____________________________________________________________");
+    }
+
     public ArrayList<Task> getList () {
         return userList;
     }

@@ -1,0 +1,141 @@
+package moonchester_utils;
+
+import java.util.Arrays;
+import java.util.Scanner;
+import moonchester_data.*;
+import moonchester_utils.*;
+
+public class MoonchesterHandler {
+    private final Scanner scanner;
+    private final UserList userList;
+
+    public MoonchesterHandler(UserList userList) {
+        this.userList = userList;
+        this.scanner = new Scanner(System.in);
+    }
+
+    public void start() {
+        userGreeting();
+
+        while (true) {
+            System.out.print("Command / Add : ");
+            String userItem = scanner.nextLine();
+            String[] splittedString = stringSplitter(userItem, " ");
+
+            try {
+                String command = splittedString[0].toLowerCase();
+                switch (command) {
+                    case "list" -> printList();
+                    case "exit" -> { userExit(); return; }
+                    case "mark" -> handleMarking(splittedString, true);
+                    case "unmark" -> handleMarking(splittedString, false);
+                    case "todo" -> addTodo(splittedString);
+                    case "deadline" -> addDeadline(joinFromSecond(splittedString));
+                    case "event" -> addEvent(joinFromSecond(splittedString));
+                    default -> throw new MoonchesterException("[!] Unknown Command. Permitted Commands : todo, deadline, event, list, mark, unmark, exit");
+                }
+            } catch (MoonchesterException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private void userGreeting() {
+        String greetingMessage = """
+        ____________________________________________________________
+        Hello! I am Moonchester, your personal chatbot!
+        What can I do for you?
+        """;
+        System.out.print(greetingMessage);
+    }
+
+    private void userExit() {
+        String exitMessage = """
+        Hope to see you again soon, goodbye!
+        ____________________________________________________________
+        """;
+        System.out.print(exitMessage);
+        scanner.close();
+    }
+
+    private String[] stringSplitter(String userItem, String delimiter) {
+        String[] userItem_split = userItem.split(delimiter);
+        return userItem_split;
+    }
+
+    private static String joinFromSecond(String[] task_description) {
+        if (task_description.length <= 1) {
+            return "";
+        }
+        String[] result = Arrays.copyOfRange(task_description, 1, task_description.length);
+        return String.join(" ", result);
+    }
+
+    private void printList() {
+        System.out.println("[+] User's List");
+        int counter = 1;
+        for (Task item : userList.getList()) {
+            System.out.println(counter + ". " + item.printString());
+            counter++;
+        }
+        System.out.println("____________________________________________________________");
+    }
+
+    private void handleMarking(String[] userItemSplit, boolean status) {
+        try {
+            int index = Integer.parseInt(userItemSplit[1]);
+            if (index <= 0 || index > userList.getSize()) {
+                throw new MoonchesterException("[!] Please select a valid S/N");
+            }
+
+            userList.getSpecificTask(index).setStatus(status);
+            String statusDescription = status ? "completed" : "not completed";
+            System.out.println("[+] Marked as " + statusDescription + " : " + userList.getSpecificTask(index).getDescription());
+            System.out.println("____________________________________________________________");
+
+        } catch (NumberFormatException e) {
+            System.out.println("[!] Invalid task number.");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("[!] Please specify which task to mark or unmark.");
+        }
+    }
+
+    private void addTodo(String[] splitted_string) {
+        String[] task_description_array = Arrays.copyOfRange(splitted_string, 1, splitted_string.length);
+        String task_description = String.join(" ", task_description_array);
+        Todo new_todo = new Todo(task_description);
+        userList.addItem(new_todo);
+    }
+
+    private void addDeadline(String taskDescription) {
+        try {
+            String[] parts = stringSplitter(taskDescription, "/by");
+            Deadline newDeadline = new Deadline(parts[0], parts[1].trim());
+            userList.addItem(newDeadline);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("[!] Deadline appears to have missing parameters, please follow this format: deadline [description] /by [day]");
+        }
+    }
+
+    private void addEvent(String task_description) {
+        try {
+            String[] description_array = stringSplitter(task_description, "/from");
+            String description = description_array[0];
+            String[] results = eventExtractor(description_array[1]);
+            Event new_event = new Event(description, results[0], results[1]);
+            userList.addItem(new_event);
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("[!] Event appears to have missing parameters, , please follow this format : event [description] /from [day] [time] /to [time]");
+        }
+
+    }
+
+    private String[] eventExtractor(String eventArray) {
+        String[] results = new String[2];
+        String[] eventArrayParts = eventArray.split("/to");
+        results[0] = eventArrayParts[0].replace("/from", "").trim();
+        results[1] = eventArrayParts[1].trim();
+        return results;
+    }
+}
