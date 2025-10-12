@@ -36,6 +36,8 @@ public class MoonchesterHandler {
                             handleDelete(Integer.parseInt(splittedString[1]));
                         } catch (ArrayIndexOutOfBoundsException e) {
                             throw new MoonchesterException("[!] Please select a valid S/N");
+                        } catch (IndexOutOfBoundsException e) {
+                            throw new MoonchesterException("[!] Please select a valid S/N");
                         }
                         break;
                     }
