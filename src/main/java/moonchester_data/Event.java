@@ -10,6 +10,15 @@ public class Event extends Task {
         this.from = from;
         this.to = to;
     }
+
+    public String getFrom() {
+        return this.from;
+    }
+
+    public String getTo() {
+        return this.to;
+    }
+
     @Override
     public String printString() {
         return "[E]" + "[" + getStatusIcon() + "] " + getDescription() + "(from: " + this.from + " to: "+ this.to + ")";

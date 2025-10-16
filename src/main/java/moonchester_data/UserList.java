@@ -10,6 +10,10 @@ public class UserList {
         userList = new ArrayList<>();
     }
 
+    public UserList(ArrayList<Task> userList_init) {
+        this.userList = userList_init;
+    }
+
     public void addItem (Task item) {
         userList.add(item);
         System.out.println("[+] Added : " + item.printString());

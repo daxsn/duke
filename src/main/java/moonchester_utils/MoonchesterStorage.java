@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class MoonchesterStorage {
 
     // Rmb to change this
-    // private static String file_path = "duke/src/main/java/moonchester_data/Task_List.txt";
+    //private static String file_path = "duke/src/main/java/moonchester_data/Task_List.txt";
     private static String file_path = "moonchester_data/Task_List.txt";
     private static File task_list_file = new File(file_path);
 

@@ -11,7 +11,6 @@ What should the parser do?
 */ 
 import java.util.ArrayList;
 import moonchester_data.*;
-import moonchester_utils.*;
 
 public class MoonchesterParser {
     public ArrayList<Task> retrieveObjects(ArrayList<String> lines) {
@@ -24,9 +23,7 @@ public class MoonchesterParser {
 
     private Task formatObjects(String line) {
         /*  
-        TODO
-        - First cut check : when split based on |, first 2 are consistent. Need to cater for Deadline and Event where there are more |
-        - To consider : Event August 6th 2-4pm -> E | 0 | project meeting | Aug 6th 2 | 4pm
+        This function is to convert text format into objects so that it can be read by the program
         */ 
         String[] parts = line.split(" \\| ");
         String type = parts[0];
@@ -39,10 +36,10 @@ public class MoonchesterParser {
                 return new_todo;
             case "D":
                 System.out.println("Deadline");
-                Deadline new_deadline = new Deadline(description, "yeet");
+                Deadline new_deadline = new Deadline(description, parts[parts.length - 1].trim());
                 return new_deadline;
             case "E":
-                Event new_event = new Event(description, "yeet", "beet");
+                Event new_event = new Event(description, parts[3].trim(), parts[parts.length - 1].trim());
                 return new_event;
             default:
                 throw new IllegalArgumentException("Unknown task type: " + type);
@@ -54,26 +51,24 @@ public class MoonchesterParser {
         TODO
         - When user provides a new task : Format according to the type of task and return to the call
          */
-        return task.getDescription() + " | " + task.getStatusIcon();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(System.getProperty("user.dir"));
-        ArrayList<String> lines = MoonchesterStorage.readLines();
-
-        MoonchesterParser parser = new MoonchesterParser();
-        ArrayList<Task> tasks = parser.retrieveObjects(lines);
-
-        System.out.println("=== Parsed Tasks ===");
-        for (Task t : tasks) {
-            System.out.println(t);
+        if (task instanceof Todo) {
+            // Format Todo
+            return "T" + " | " + task.getDescription();
         }
 
-        System.out.println("\n=== Re-Formatted Lines ===");
-        for (Task t : tasks) {
-            System.out.println(parser.format(t));
+        if (task instanceof Deadline) {
+            // Format Deadline
+            Deadline deadlineTask = (Deadline) task;
+            return "D" + " | " + deadlineTask.getDescription() + " | " + deadlineTask.getBy();
         }
+
+        if (task instanceof Event) {
+            // Format Event
+            Event eventTask = (Event) task;
+            return "E" + " | " + eventTask.getDescription() + " | " + eventTask.getFrom() + " | " + eventTask.getTo();
+        }
+        
+        return "";
     }
-    
 
 }
