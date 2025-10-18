@@ -7,10 +7,12 @@ import moonchester_data.*;
 public class MoonchesterHandler {
     private final Scanner scanner;
     private final UserList userList;
+    public MoonchesterStorage storage;
 
     public MoonchesterHandler(UserList userList) {
         this.userList = userList;
         this.scanner = new Scanner(System.in);
+        this.storage = new MoonchesterStorage();
     }
 
     public void start() {
@@ -63,6 +65,11 @@ public class MoonchesterHandler {
         Hope to see you again soon, goodbye!
         ____________________________________________________________
         """;
+        try {
+            storage.updateActiveTasks(userList);
+        } catch (java.io.IOException e) {
+            System.err.println("[!] Error saving tasks: " + e.getMessage());
+        }
         System.out.print(exitMessage);
         scanner.close();
     }

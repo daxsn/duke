@@ -1,4 +1,6 @@
 T | 1 | read book
 D | 0 | return book | June 6th
-E | 0 | project meeting | Aug 6th 2 | 4pm
-T | 1 | join sports club
+T | 1 | badminton
+D | 1 | badminton | 12pm
+E | 1 | badminton | 2 | 4
+E | 0 | football | 4pm today | 6pm later
