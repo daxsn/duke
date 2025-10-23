@@ -18,3 +18,4 @@ text-ui-test/EXPECTED-UNIX.TXT
 src/main/java/*.class
 src/main/java/moonchester_data/*.class
 src/main/java/moonchester_utils/*.class
+src/main/java/moonchester_data/Task_List.txt
