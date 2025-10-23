@@ -1,15 +1,5 @@
 package moonchester_utils;
 
-/*
-
-What should the parser do?
-
-- Read task from Task_List.txt via MoonchesterStorage and PARSE it such that it returns an ArrayList<>()
-- Converts task from front-end format to back-end format
-- Original location of this class -> moonchester_utils
-- It is currently outside on the root folder because of testing purposes
-
-*/ 
 import java.util.ArrayList;
 import moonchester_data.*;
 
@@ -23,9 +13,7 @@ public class MoonchesterParser {
     }
 
     private Task formatObjects(String line) {
-        /*  
-        This function is to convert text format into objects so that it can be read by the program
-        */ 
+        // This function is to convert text format into objects so that it can be read by the program
         String[] parts = line.split(" \\| ");
         String type = parts[0];
         boolean isDone = parts[1].trim().equals("1");
@@ -36,10 +24,12 @@ public class MoonchesterParser {
                 new_todo.setStatus(isDone);
                 return new_todo;
             case "D":
+                // Deadline : description, deadline
                 Deadline new_deadline = new Deadline(description, parts[parts.length - 1].trim());
                 new_deadline.setStatus(isDone);
                 return new_deadline;
             case "E":
+                // Event : description, from, to
                 Event new_event = new Event(description, parts[3].trim(), parts[parts.length - 1].trim());
                 new_event.setStatus(isDone);
                 return new_event;

@@ -66,6 +66,7 @@ public class MoonchesterHandler {
         ____________________________________________________________
         """;
         try {
+            // Only updates the task list AFTER the user exits the program
             storage.updateActiveTasks(userList);
         } catch (java.io.IOException e) {
             System.err.println("[!] Error saving tasks: " + e.getMessage());
