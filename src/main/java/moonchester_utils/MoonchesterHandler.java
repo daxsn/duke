@@ -158,9 +158,9 @@ public class MoonchesterHandler {
             String[] description_array = stringSplitter(task_description, "/from");
             String description = description_array[0];
             String[] results = eventExtractor(description_array[1]);
-            LocalDateTime toDate = MoonchesterDate.convertToDateTime(results[0]);
-            LocalDateTime fromDate = MoonchesterDate.convertToDateTime(results[1]);
-            Event new_event = new Event(description, toDate, fromDate);
+            LocalDateTime fromDate = MoonchesterDate.convertToDateTime(results[0]);
+            LocalDateTime toDate = MoonchesterDate.convertToDateTime(results[1]);
+            Event new_event = new Event(description, fromDate, toDate);
             userList.addItem(new_event);
         }
         catch (ArrayIndexOutOfBoundsException e) {
