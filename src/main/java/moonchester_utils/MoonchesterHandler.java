@@ -158,10 +158,16 @@ public class MoonchesterHandler {
             String[] description_array = stringSplitter(task_description, "/from");
             String description = description_array[0];
             String[] results = eventExtractor(description_array[1]);
+            // Compare fromDate and toDate
             LocalDateTime fromDate = MoonchesterDate.convertToDateTime(results[0]);
             LocalDateTime toDate = MoonchesterDate.convertToDateTime(results[1]);
-            Event new_event = new Event(description, fromDate, toDate);
-            userList.addItem(new_event);
+            if (MoonchesterDate.compareDates(fromDate, toDate) == false) {
+                System.err.println("[!] From date is AFTER to date - Please ensure that /from is earlier than /to");
+            }
+            else {
+                Event new_event = new Event(description, fromDate, toDate);
+                userList.addItem(new_event);
+            }
         }
         catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("[!] Event appears to have missing parameters, , please follow this format : event [description] /from [day] [time] /to [time]");

@@ -25,10 +25,16 @@ public class MoonchesterDate {
         return dateTimeObject.format(formatter);
     }
 
+    public static boolean compareDates(LocalDateTime date_1, LocalDateTime date_2) {
+        return date_1.isBefore(date_2);
+    }
+
     // public static void main(String[] args) {
     // // The method should accept a string
     // String date_string = "12/12/2025 1800";
+    // String date_string_2 = "12/12/2025 1900";
     // LocalDateTime updated = convertToDateTime(date_string);
-    // readableDate(updated);
+    // LocalDateTime updated_2 = convertToDateTime(date_string_2);
+    // compareDates(updated, updated_2);
     // }
 }
