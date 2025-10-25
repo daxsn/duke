@@ -1,6 +1,7 @@
 T | 1 | read book
-D | 0 | return book | June 6th
+D | 0 | return book | 06/06/2025 2000
 T | 1 | badminton
-D | 1 | badminton | 12pm
-E | 1 | badminton | 2 | 4
-E | 0 | football | 4pm today | 6pm later
+D | 1 | badminton | 06/06/2025 2000
+E | 1 | badminton | 06/06/2025 2000 | 06/06/2025 2015
+E | 0 | football | 06/06/2025 1900 | 06/06/2025 1915
+E | 0 | badminton  | 09/09/2025 1600 | 09/09/2025 1700

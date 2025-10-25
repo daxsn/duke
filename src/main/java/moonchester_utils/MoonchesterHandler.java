@@ -1,5 +1,6 @@
 package moonchester_utils;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Scanner;
 import moonchester_data.*;
@@ -144,7 +145,8 @@ public class MoonchesterHandler {
     private void addDeadline(String taskDescription) {
         try {
             String[] parts = stringSplitter(taskDescription, "/by");
-            Deadline newDeadline = new Deadline(parts[0], parts[1].trim());
+            LocalDateTime date = MoonchesterDate.convertToDateTime(parts[1].trim());
+            Deadline newDeadline = new Deadline(parts[0], date);
             userList.addItem(newDeadline);
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("[!] Deadline appears to have missing parameters, please follow this format: deadline [description] /by [day]");
@@ -156,7 +158,9 @@ public class MoonchesterHandler {
             String[] description_array = stringSplitter(task_description, "/from");
             String description = description_array[0];
             String[] results = eventExtractor(description_array[1]);
-            Event new_event = new Event(description, results[0], results[1]);
+            LocalDateTime toDate = MoonchesterDate.convertToDateTime(results[0]);
+            LocalDateTime fromDate = MoonchesterDate.convertToDateTime(results[1]);
+            Event new_event = new Event(description, toDate, fromDate);
             userList.addItem(new_event);
         }
         catch (ArrayIndexOutOfBoundsException e) {
