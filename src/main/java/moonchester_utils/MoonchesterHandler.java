@@ -1,6 +1,7 @@
 package moonchester_utils;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import moonchester_data.*;
@@ -34,6 +35,7 @@ public class MoonchesterHandler {
                     case "todo" : addTodo(splittedString); break;
                     case "deadline" : addDeadline(joinFromSecond(splittedString)); break;
                     case "event" : addEvent(joinFromSecond(splittedString)); break;
+                    case "date": queryList(splittedString[1]); break;
                     case "delete" : {
                         try {
                             handleDelete(Integer.parseInt(splittedString[1]));
@@ -98,6 +100,15 @@ public class MoonchesterHandler {
         }
         System.out.println("____________________________________________________________");
     }
+    private void printList(ArrayList<Task> queriedList, String dateString) {
+        System.out.println("[+] Events/Deadlines occuring on " + dateString);
+        int counter = 1;
+        for (Task item : queriedList) {
+            System.out.println(counter + ". " + item.printString());
+            counter++;
+        }
+        System.out.println("____________________________________________________________");
+    }
 
     private void handleMarking(String[] userItemSplit, boolean status) {
         try {
@@ -145,7 +156,10 @@ public class MoonchesterHandler {
     private void addDeadline(String taskDescription) {
         try {
             String[] parts = stringSplitter(taskDescription, "/by");
-            LocalDateTime date = MoonchesterDate.convertToDateTime(parts[1].trim());
+            LocalDateTime date = MoonchesterDate.convertToDateTime(parts[1].trim(), 0);
+            if (date == null) {
+                return;
+            }
             Deadline newDeadline = new Deadline(parts[0], date);
             userList.addItem(newDeadline);
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -159,20 +173,35 @@ public class MoonchesterHandler {
             String description = description_array[0];
             String[] results = eventExtractor(description_array[1]);
             // Compare fromDate and toDate
-            LocalDateTime fromDate = MoonchesterDate.convertToDateTime(results[0]);
-            LocalDateTime toDate = MoonchesterDate.convertToDateTime(results[1]);
-            if (MoonchesterDate.compareDates(fromDate, toDate) == false) {
+            LocalDateTime fromDate = MoonchesterDate.convertToDateTime(results[0], 0);
+            LocalDateTime toDate = MoonchesterDate.convertToDateTime(results[1], 0);
+            if (fromDate == null || toDate == null) {
+                return;
+            }
+
+            if (!MoonchesterDate.compareDateTime(fromDate, toDate)) {
                 System.err.println("[!] From date is AFTER to date - Please ensure that /from is earlier than /to");
+                return;
             }
-            else {
-                Event new_event = new Event(description, fromDate, toDate);
-                userList.addItem(new_event);
-            }
+
+            Event newEvent = new Event(description, fromDate, toDate);
+            userList.addItem(newEvent);
         }
         catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("[!] Event appears to have missing parameters, , please follow this format : event [description] /from [day] [time] /to [time]");
         }
 
+    }
+
+    private void queryList(String dateString) {
+        // This function returns the list of tasks on a given date
+        // Format - dd/MM/yyyy
+        LocalDateTime convertedDate = MoonchesterDate.convertToDateTime(dateString, 1);
+        if(convertedDate == null) {
+            return;
+        }
+        ArrayList<Task> queriedList = userList.getList(convertedDate);
+        printList(queriedList, dateString);
     }
 
 

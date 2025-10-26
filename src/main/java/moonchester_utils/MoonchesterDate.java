@@ -4,13 +4,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class MoonchesterDate {
-    public static LocalDateTime convertToDateTime(String dateTimeString) {
+    public static LocalDateTime convertToDateTime(String dateTimeString, int option) {
         try {
-            DateTimeFormatter convertedObject = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
-            LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, convertedObject);
-            return dateTime;
+            if (option == 1) {
+                dateTimeString = dateTimeString + " 0000";
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
+                return LocalDateTime.parse(dateTimeString, dateFormatter);
+            } else {
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
+                return LocalDateTime.parse(dateTimeString, dateTimeFormatter);
+            }
         } catch (DateTimeParseException e) {
-            System.out.println("[!] Unable to parse datetime - Please ensure that your deadline/event dates are in this format - dd/mm/yyyy hhmm");
+            System.out.println("[!] Unable to parse datetime - Please ensure that your deadline/event dates are in this format - [Addition of deadlines/events] dd/MM/yyyy HHmm or [Query for tasks] dd/MM/yyyy");
             return null;
         }
     }
@@ -25,8 +30,14 @@ public class MoonchesterDate {
         return dateTimeObject.format(formatter);
     }
 
-    public static boolean compareDates(LocalDateTime date_1, LocalDateTime date_2) {
+    public static boolean compareDateTime(LocalDateTime date_1, LocalDateTime date_2) {
         return date_1.isBefore(date_2);
+    }
+
+    public static boolean compareDate(LocalDateTime date_1, LocalDateTime date_2) {
+        return date_1.getDayOfMonth() == date_2.getDayOfMonth()
+            && date_1.getMonth() == date_2.getMonth()
+            && date_1.getYear() == date_2.getYear();
     }
 
     // public static void main(String[] args) {

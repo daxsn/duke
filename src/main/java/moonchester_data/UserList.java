@@ -1,6 +1,8 @@
 package moonchester_data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import moonchester_utils.MoonchesterDate;
 
 public class UserList {
 
@@ -32,6 +34,23 @@ public class UserList {
         return userList;
     }
 
+    public ArrayList<Task> getList(LocalDateTime specificDate) {
+        ArrayList<Task> queriedList = new ArrayList<>();
+        for(Task curr : userList) {
+            if (curr instanceof Deadline deadlineObject) {
+                if (MoonchesterDate.compareDate(specificDate, deadlineObject.getByObject())) {
+                    queriedList.add(deadlineObject);
+                }
+            }
+            if (curr instanceof Event eventObject) {
+                if (MoonchesterDate.compareDate(specificDate, eventObject.getFromObject())) {
+                    queriedList.add(eventObject);
+                }
+            }
+        }
+        return queriedList;
+    }
+
     public Task getSpecificTask(int index) {
         return this.userList.get(index-1);
     }
@@ -39,5 +58,7 @@ public class UserList {
     public int getSize() {
         return this.userList.size();
     }
+
+
 
 }

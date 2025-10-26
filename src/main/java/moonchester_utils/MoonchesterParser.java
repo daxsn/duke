@@ -25,12 +25,12 @@ public class MoonchesterParser {
                 return new_todo;
             case "D":
                 // Deadline : description, deadline
-                Deadline new_deadline = new Deadline(description, MoonchesterDate.convertToDateTime(parts[parts.length - 1].trim()));
+                Deadline new_deadline = new Deadline(description, MoonchesterDate.convertToDateTime(parts[parts.length - 1].trim(), 0));
                 new_deadline.setStatus(isDone);
                 return new_deadline;
             case "E":
                 // Event : description, from, to
-                Event new_event = new Event(description, MoonchesterDate.convertToDateTime(parts[3].trim()), MoonchesterDate.convertToDateTime(parts[parts.length - 1].trim()));
+                Event new_event = new Event(description, MoonchesterDate.convertToDateTime(parts[3].trim(), 0), MoonchesterDate.convertToDateTime(parts[parts.length - 1].trim(), 0));
                 new_event.setStatus(isDone);
                 return new_event;
             default:
