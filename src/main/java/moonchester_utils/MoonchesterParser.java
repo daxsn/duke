@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import moonchester_data.*;
 
 public class MoonchesterParser {
+    // From the file, it converts Strings into Task objects
     public ArrayList<Task> retrieveObjects(ArrayList<String> lines) {
         ArrayList<Task> tasks = new ArrayList<>();
         for (String line : lines) {
@@ -12,8 +13,8 @@ public class MoonchesterParser {
         return tasks;
     }
 
+    // Convert text format into objects so that it can be read by the program
     private Task formatObjects(String line) {
-        // This function is to convert text format into objects so that it can be read by the program
         String[] parts = line.split(" \\| ");
         String type = parts[0];
         boolean isDone = parts[1].trim().equals("1");
@@ -38,6 +39,8 @@ public class MoonchesterParser {
         }
     }
     
+
+    // Converts Task objects to String objects to save into the file
     public String convertObjects(Task task) {
         int status = 0;
         if (task.getStatusIcon() == "X") {

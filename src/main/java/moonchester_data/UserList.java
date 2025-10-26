@@ -16,6 +16,7 @@ public class UserList {
         this.userList = userList_init;
     }
 
+    // Add Task to the userlist
     public void addItem (Task item) {
         userList.add(item);
         System.out.println("[+] Added : " + item.printString());
@@ -23,6 +24,7 @@ public class UserList {
         System.out.println("____________________________________________________________");
     }
 
+    // Delete Task to the userlist
     public void deleteItem (int item_index, Task item) {
         userList.remove(item_index);
         System.out.println("[+] Deleted : " + item.printString());
@@ -34,6 +36,8 @@ public class UserList {
         return userList;
     }
 
+
+    // Method overloading - Getlist based on the specific date given by user
     public ArrayList<Task> getList(LocalDateTime specificDate) {
         ArrayList<Task> queriedList = new ArrayList<>();
         for(Task curr : userList) {
@@ -51,10 +55,12 @@ public class UserList {
         return queriedList;
     }
 
+    // Get the specific task
     public Task getSpecificTask(int index) {
         return this.userList.get(index-1);
     }
 
+    // Get the size of the userlist
     public int getSize() {
         return this.userList.size();
     }

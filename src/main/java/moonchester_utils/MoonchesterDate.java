@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class MoonchesterDate {
+    // Converts String Dates to LocalDatetime objects; Option is used to determine how to format the dates
     public static LocalDateTime convertToDateTime(String dateTimeString, int option) {
         try {
             if (option == 1) {
@@ -20,32 +21,27 @@ public class MoonchesterDate {
         }
     }
 
+    // To convert LocalDateTime to readable strings - Accessed by Tasks Objects
     public static String readableDate(LocalDateTime dateTimeObject) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy - HHmm");
         return dateTimeObject.format(formatter);
     }
 
+    // To convert LocalDateTime to Strings based on the format used in the file
     public static String saveDateFormat(LocalDateTime dateTimeObject) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
         return dateTimeObject.format(formatter);
     }
 
+    // To check if dates given is before the second date - mainly used for Event task
     public static boolean compareDateTime(LocalDateTime date_1, LocalDateTime date_2) {
         return date_1.isBefore(date_2);
     }
 
+    // This is used to compared date only, excluding time.
     public static boolean compareDate(LocalDateTime date_1, LocalDateTime date_2) {
         return date_1.getDayOfMonth() == date_2.getDayOfMonth()
             && date_1.getMonth() == date_2.getMonth()
             && date_1.getYear() == date_2.getYear();
     }
-
-    // public static void main(String[] args) {
-    // // The method should accept a string
-    // String date_string = "12/12/2025 1800";
-    // String date_string_2 = "12/12/2025 1900";
-    // LocalDateTime updated = convertToDateTime(date_string);
-    // LocalDateTime updated_2 = convertToDateTime(date_string_2);
-    // compareDates(updated, updated_2);
-    // }
 }

@@ -16,6 +16,7 @@ public class MoonchesterStorage {
     private static File task_list_file = new File(file_path);
     MoonchesterParser parser = new MoonchesterParser();
 
+    // Reads each line of the file and returns the array
     public static ArrayList<String> readLines() {
         ArrayList<String> lines = new ArrayList<>();
         try (Scanner scanner = new Scanner(task_list_file)) {
@@ -29,6 +30,7 @@ public class MoonchesterStorage {
         return lines;
     }
 
+    // When user exits, this function will get called to update the file
     public void updateActiveTasks(UserList finalUserList) throws IOException {
         new FileWriter(file_path, false).close();
         for (Task item : finalUserList.getList()) {

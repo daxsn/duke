@@ -54,6 +54,8 @@ public class MoonchesterHandler {
         }
     }
 
+
+    // Program greeting
     private void userGreeting() {
         String greetingMessage = """
         ____________________________________________________________
@@ -62,7 +64,7 @@ public class MoonchesterHandler {
         """;
         System.out.print(greetingMessage);
     }
-
+    // When the user exits, it will print a banner AND saves the task list to the file
     private void userExit() {
         String exitMessage = """
         Hope to see you again soon, goodbye!
@@ -78,11 +80,13 @@ public class MoonchesterHandler {
         scanner.close();
     }
 
+    // Helper method to split the user-input
     private String[] stringSplitter(String userItem, String delimiter) {
         String[] userItem_split = userItem.split(delimiter);
         return userItem_split;
     }
 
+    // Helper method to join task description
     private static String joinFromSecond(String[] task_description) {
         if (task_description.length <= 1) {
             return "";
@@ -91,6 +95,8 @@ public class MoonchesterHandler {
         return String.join(" ", result);
     }
 
+
+    // Prints out the existing User List
     private void printList() {
         System.out.println("[+] User's List");
         int counter = 1;
@@ -100,6 +106,8 @@ public class MoonchesterHandler {
         }
         System.out.println("____________________________________________________________");
     }
+
+    // Method overloading - Prints out specific userlist
     private void printList(ArrayList<Task> queriedList, String dateString) {
         System.out.println("[+] Events/Deadlines occuring on " + dateString);
         int counter = 1;
@@ -110,6 +118,7 @@ public class MoonchesterHandler {
         System.out.println("____________________________________________________________");
     }
 
+    // Handles the marking mechanism
     private void handleMarking(String[] userItemSplit, boolean status) {
         try {
             int index = Integer.parseInt(userItemSplit[1]);
@@ -129,6 +138,8 @@ public class MoonchesterHandler {
         }
     }
 
+
+    // Handles delete mechanism
     private void handleDelete(int array_index) {
         try {
             userList.deleteItem(array_index - 1, userList.getSpecificTask(array_index));
@@ -138,6 +149,8 @@ public class MoonchesterHandler {
         
     }
 
+
+    // Extract the dates from event userinput based on /to and /from
     private String[] eventExtractor(String eventArray) {
         String[] results = new String[2];
         String[] eventArrayParts = eventArray.split("/to");
@@ -146,6 +159,8 @@ public class MoonchesterHandler {
         return results;
     }
 
+
+    // Handles adding a Todo task
     private void addTodo(String[] splitted_string) {
         String[] task_description_array = Arrays.copyOfRange(splitted_string, 1, splitted_string.length);
         String task_description = String.join(" ", task_description_array);
@@ -153,6 +168,8 @@ public class MoonchesterHandler {
         userList.addItem(new_todo);
     }
 
+
+    // Handles adding a Deadline task
     private void addDeadline(String taskDescription) {
         try {
             String[] parts = stringSplitter(taskDescription, "/by");
@@ -167,6 +184,8 @@ public class MoonchesterHandler {
         }
     }
 
+
+    // Handles adding an Event task
     private void addEvent(String task_description) {
         try {
             String[] description_array = stringSplitter(task_description, "/from");
@@ -193,6 +212,8 @@ public class MoonchesterHandler {
 
     }
 
+
+    // Queries for Tasks in the userlist based on the date given
     private void queryList(String dateString) {
         // This function returns the list of tasks on a given date
         // Format - dd/MM/yyyy
