@@ -10,10 +10,23 @@ import moonchester_data.*;
 
 public class MoonchesterStorage {
 
-    // Rmb to change this
-    //private static String file_path = "Z:/School/Year_3/TIC2002/Project/duke/src/main/java/moonchester_data/Task_List.txt";
-    private static String file_path = "moonchester_data/Task_List.txt";
-    private static File task_list_file = new File(file_path);
+    private static final String file_path;
+    private static final File task_list_file;
+    static {
+        String baseDir = System.getProperty("user.dir");
+        String resolvedPath;
+
+        // Handle both Gradle and direct VS Code runs
+        if (baseDir.endsWith("java")) {
+            resolvedPath = baseDir + "/moonchester_data/Task_List.txt";
+        } else {
+            resolvedPath = baseDir + "/src/main/java/moonchester_data/Task_List.txt";
+        }
+
+        file_path = resolvedPath;
+        task_list_file = new File(file_path);
+    }
+    
     MoonchesterParser parser = new MoonchesterParser();
 
     // Reads each line of the file and returns the array
