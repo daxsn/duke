@@ -4,7 +4,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import moonchester_data.*;
+
+import moonchester_data.Deadline;
+import moonchester_data.Event;
+import moonchester_data.Task;
+import moonchester_data.Todo;
+import moonchester_data.UserList;
 
 public class MoonchesterHandler {
     private final Scanner scanner;
@@ -205,8 +210,7 @@ public class MoonchesterHandler {
 
             Event newEvent = new Event(description, fromDate, toDate);
             userList.addItem(newEvent);
-        }
-        catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("[!] Event appears to have missing parameters, , please follow this format : event [description] /from [day] [time] /to [time]");
         }
 

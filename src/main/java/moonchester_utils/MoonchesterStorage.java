@@ -6,7 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import moonchester_data.*;
+
+import moonchester_data.Task;
+import moonchester_data.UserList;
 
 public class MoonchesterStorage {
 
@@ -37,7 +39,6 @@ public class MoonchesterStorage {
                 lines.add(scanner.nextLine());
             }
         } catch (java.io.FileNotFoundException e) {
-            //System.out.println(System.getProperty("user.dir"));
             System.out.println("File not found: " + e.getMessage());
         }
         return lines;
