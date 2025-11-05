@@ -88,7 +88,36 @@ public class UserList {
         return queriedList;
     }
 
-    // Get the specific task
+
+    /**
+     * Getlist based on the specific keyword given by user
+     * This is method overloading, the difference between the other methods is that this method takes a string - keyword.
+     * 
+     * @param keyword Specific keyword that user specifies
+     * @return queriedList ArrayList<Task> of Tasks that contains the specific word
+     */
+    public ArrayList<Task> getList(String keyword) {
+        ArrayList<Task> queriedList = new ArrayList<>();
+        for(Task curr : userList) {
+            if (curr instanceof Deadline deadlineObject) {
+                if (deadlineObject.getDescription().contains(keyword) == true) {
+                    queriedList.add(deadlineObject);
+                }
+            }
+            if (curr instanceof Event eventObject) {
+                if (eventObject.getDescription().contains(keyword) == true) {
+                    queriedList.add(eventObject);
+                }
+            }
+            if (curr instanceof Todo todoObject) {
+                if (todoObject.getDescription().contains(keyword) == true) {
+                    queriedList.add(todoObject);
+                }
+            }
+        }
+        return queriedList;
+    }
+
     /**
      * Gets the specific task within the userList object
      * 

@@ -40,7 +40,8 @@ public class MoonchesterHandler {
                     case "todo" : addTodo(splittedString); break;
                     case "deadline" : addDeadline(joinFromSecond(splittedString)); break;
                     case "event" : addEvent(joinFromSecond(splittedString)); break;
-                    case "date": queryList(splittedString[1]); break;
+                    case "date": queryDate(splittedString[1]); break;
+                    case "find" : queryKeyword(splittedString[1]); break;
                     case "delete" : {
                         try {
                             handleDelete(Integer.parseInt(splittedString[1]));
@@ -112,8 +113,7 @@ public class MoonchesterHandler {
         System.out.println("____________________________________________________________");
     }
 
-    // Method overloading - Prints out specific userlist
-    private void printList(ArrayList<Task> queriedList, String dateString) {
+    private void printListDate(ArrayList<Task> queriedList, String dateString) {
         System.out.println("[+] Events/Deadlines occuring on " + dateString);
         int counter = 1;
         for (Task item : queriedList) {
@@ -121,6 +121,25 @@ public class MoonchesterHandler {
             counter++;
         }
         System.out.println("____________________________________________________________");
+        System.out.println("Press \"ENTER\" to view your master list - You will need to view your master list to mark/unmark them :)");
+        System.out.print("____________________________________________________________");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+        printList();
+    }
+    private void printListKeyword(ArrayList<Task> queriedList, String keyword) {
+        System.out.println("[+] Keyword found in the following tasks: [" + keyword + "]");
+        int counter = 1;
+        for (Task item : queriedList) {
+            System.out.println(counter + ". " + item.printString());
+            counter++;
+        }
+        System.out.println("____________________________________________________________");
+        System.out.println("Press \"ENTER\" to view your master list - You will need to view your master list to mark/unmark them :)");
+        System.out.print("____________________________________________________________");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+        printList();
     }
 
     // Handles the marking mechanism
@@ -185,7 +204,7 @@ public class MoonchesterHandler {
             Deadline newDeadline = new Deadline(parts[0], date);
             userList.addItem(newDeadline);
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("[!] Deadline appears to have missing parameters, please follow this format: deadline [description] /by [day]");
+            System.err.println("[!] Deadline appears to have missing parameters, please follow this format: deadline [description] /by [dd/MM/yyyy HHmm]");
         }
     }
 
@@ -211,14 +230,14 @@ public class MoonchesterHandler {
             Event newEvent = new Event(description, fromDate, toDate);
             userList.addItem(newEvent);
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("[!] Event appears to have missing parameters, , please follow this format : event [description] /from [day] [time] /to [time]");
+            System.err.println("[!] Event appears to have missing parameters, , please follow this format : event [description] /from [dd/MM/yyyy HHmm] /to [dd/MM/yyyy HHmm]");
         }
 
     }
 
 
     // Queries for Tasks in the userlist based on the date given
-    private void queryList(String dateString) {
+    private void queryDate(String dateString) {
         // This function returns the list of tasks on a given date
         // Format - dd/MM/yyyy
         LocalDateTime convertedDate = MoonchesterDate.convertToDateTime(dateString, 1);
@@ -226,8 +245,12 @@ public class MoonchesterHandler {
             return;
         }
         ArrayList<Task> queriedList = userList.getList(convertedDate);
-        printList(queriedList, dateString);
+        printListDate(queriedList, dateString);
     }
 
+    private void queryKeyword(String keyword) {
+        ArrayList<Task> queriedList = userList.getList(keyword);
+        printListKeyword(queriedList,keyword);
+    }
 
 }

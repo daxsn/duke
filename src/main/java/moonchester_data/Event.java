@@ -72,7 +72,7 @@ public class Event extends Task {
      */
     @Override
     public String printString() {
-        return "[E]" + "[" + getStatusIcon() + "] " + getDescription() + "(from: " + getFrom() + "hrs" + " to: "+ getTo() + "hrs" +")";
+        return "[E]" + "[" + getStatusIcon() + "] " + getDescription() + " (from: " + getFrom() + "hrs" + " to: "+ getTo() + "hrs" +")";
     }
 
 }

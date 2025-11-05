@@ -50,7 +50,7 @@ public class Deadline extends Task {
      */
     @Override
     public String printString() {
-        return "[D]" + "[" + getStatusIcon() + "] " + getDescription() + "(by: " + getBy() + "hrs" +")";
+        return "[D]" + "[" + getStatusIcon() + "] " + getDescription() + " (by: " + getBy() + "hrs" +")";
     }
 
 }
