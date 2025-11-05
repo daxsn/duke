@@ -236,7 +236,11 @@ public class MoonchesterHandler {
     }
 
 
-    // Queries for Tasks in the userlist based on the date given
+    /**
+     * Retrieves the tasks based on a date found in the description and prints the list
+     * 
+     * @param dateString Date specified by the user
+     */
     private void queryDate(String dateString) {
         // This function returns the list of tasks on a given date
         // Format - dd/MM/yyyy
@@ -248,6 +252,11 @@ public class MoonchesterHandler {
         printListDate(queriedList, dateString);
     }
 
+    /**
+     * Retrieves the tasks based on a keyword found in the description and prints the list
+     * 
+     * @param keyword Keyword specified by the user
+     */
     private void queryKeyword(String keyword) {
         ArrayList<Task> queriedList = userList.getList(keyword);
         printListKeyword(queriedList,keyword);
