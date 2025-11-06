@@ -36,6 +36,7 @@ public class UserList {
      */
     public void addItem (Task item) {
         userList.add(item);
+        assert this.getSize() > 0 : "Size of UserList should be more than 0";
         System.out.println("[+] Added : " + item.printString());
         System.out.println("[*] You have a total of " + this.getSize() + " task(s)");
         System.out.println("____________________________________________________________");
