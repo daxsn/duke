@@ -111,16 +111,16 @@ public class MoonchesterHandler {
 
     // Helper method to split the user-input
     private String[] stringSplitter(String userItem, String delimiter) {
-        String[] userItem_split = userItem.split(delimiter);
-        return userItem_split;
+        String[] userItemSplit = userItem.split(delimiter);
+        return userItemSplit;
     }
 
     // Helper method to join task description
-    private static String joinFromSecond(String[] task_description) {
-        if (task_description.length <= 1) {
+    private static String joinFromSecond(String[] taskDescription) {
+        if (taskDescription.length <= 1) {
             return "";
         }
-        String[] result = Arrays.copyOfRange(task_description, 1, task_description.length);
+        String[] result = Arrays.copyOfRange(taskDescription, 1, taskDescription.length);
         return String.join(" ", result);
     }
 
@@ -188,9 +188,9 @@ public class MoonchesterHandler {
 
 
     // Handles delete mechanism
-    private void handleDelete(int array_index) {
+    private void handleDelete(int arrayIndex) {
         try {
-            userList.deleteItem(array_index - 1, userList.getSpecificTask(array_index));
+            userList.deleteItem(arrayIndex - 1, userList.getSpecificTask(arrayIndex));
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("[!] Ensure that the S/N is valid.");
         }
@@ -209,9 +209,9 @@ public class MoonchesterHandler {
 
     // Handles adding a Todo task
     private void addTodo(String[] splitted_string) {
-        String[] task_description_array = Arrays.copyOfRange(splitted_string, 1, splitted_string.length);
-        String task_description = String.join(" ", task_description_array);
-        Todo new_todo = new Todo(task_description);
+        String[] taskDescriptionArray = Arrays.copyOfRange(splitted_string, 1, splitted_string.length);
+        String taskDescription = String.join(" ", taskDescriptionArray);
+        Todo new_todo = new Todo(taskDescription);
         userList.addItem(new_todo);
     }
 
@@ -233,9 +233,9 @@ public class MoonchesterHandler {
 
 
     // Handles adding an Event task
-    private void addEvent(String task_description) {
+    private void addEvent(String taskDescription) {
         try {
-            String[] description_array = stringSplitter(task_description, "/from");
+            String[] description_array = stringSplitter(taskDescription, "/from");
             String description = description_array[0];
             String[] results = eventExtractor(description_array[1]);
             // Compare fromDate and toDate

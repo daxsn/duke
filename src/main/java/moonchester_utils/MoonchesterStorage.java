@@ -50,10 +50,10 @@ public class MoonchesterStorage {
     public void updateActiveTasks(UserList finalUserList) throws IOException {
         new FileWriter(FILE_PATH, false).close();
         for (Task item : finalUserList.getList()) {
-            String converted_item = parser.convertObjects(item);
-            FileWriter file_writer = new FileWriter(FILE_PATH, true);
-            file_writer.write(converted_item + System.lineSeparator());
-            file_writer.close();
+            String convertedItem = parser.convertObjects(item);
+            FileWriter fileWriter = new FileWriter(FILE_PATH, true);
+            fileWriter.write(convertedItem + System.lineSeparator());
+            fileWriter.close();
         }
     }
 

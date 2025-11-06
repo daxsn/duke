@@ -23,10 +23,10 @@ public class UserList {
     /**
      * Constructs a UserList object with an existing list of tasks.
      * 
-     * @param userList_init The initial ArrayList of Task objects to populate the UserList
+     * @param userListInit The initial ArrayList of Task objects to populate the UserList
      */
-    public UserList(ArrayList<Task> userList_init) {
-        this.userList = userList_init;
+    public UserList(ArrayList<Task> userListInit) {
+        this.userList = userListInit;
     }
 
     /**
@@ -44,11 +44,11 @@ public class UserList {
     /**
      * Deletes a task from the userList object
      * 
-     * @param item_index Index of the Task to be deleted
+     * @param itemIndex Index of the Task to be deleted
      * @param item Task to be deleted
      */
-    public void deleteItem (int item_index, Task item) {
-        userList.remove(item_index);
+    public void deleteItem (int itemIndex, Task item) {
+        userList.remove(itemIndex);
         System.out.println("[+] Deleted : " + item.printString());
         System.out.println("[*] You have a total of " + this.getSize() + " task(s)");
         System.out.println("____________________________________________________________");
