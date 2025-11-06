@@ -33,16 +33,38 @@ public class MoonchesterHandler {
             try {
                 String command = splittedString[0].toLowerCase();
                 switch (command) {
-                    case "list" : printList(); break;
-                    case "exit" : { userExit(); return; }
-                    case "mark" : handleMarking(splittedString, true); break;
-                    case "unmark" : handleMarking(splittedString, false); break;
-                    case "todo" : addTodo(splittedString); break;
-                    case "deadline" : addDeadline(joinFromSecond(splittedString)); break;
-                    case "event" : addEvent(joinFromSecond(splittedString)); break;
-                    case "date": queryDate(splittedString[1]); break;
-                    case "find" : queryKeyword(splittedString[1]); break;
-                    case "delete" : {
+                    case "list": 
+                        printList(); 
+                        break;
+                    case "exit": 
+                        userExit(); 
+                        return;
+                    case "mark": 
+                        handleMarking(splittedString, true); 
+                        break;
+                    case "unmark": 
+                        handleMarking(splittedString, false); 
+                        break;
+                    case "todo":
+                    case "t":
+                        addTodo(splittedString); 
+                        break;
+                    case "deadline":
+                    case "d":
+                        addDeadline(joinFromSecond(splittedString)); 
+                        break;
+                    case "event":
+                    case "e":
+                        addEvent(joinFromSecond(splittedString)); 
+                        break;
+                    case "date": 
+                        queryDate(splittedString[1]); 
+                        break;
+                    case "find": 
+                        queryKeyword(splittedString[1]); 
+                        break;
+                    case "delete":
+                    case "del":
                         try {
                             handleDelete(Integer.parseInt(splittedString[1]));
                         } catch (ArrayIndexOutOfBoundsException e) {
@@ -51,9 +73,10 @@ public class MoonchesterHandler {
                             throw new MoonchesterException("[!] Please select a valid S/N");
                         }
                         break;
-                    }
-                    default : throw new MoonchesterException("[!] Unknown Command. Permitted Commands : todo, deadline, event, list, mark, unmark, exit");
+                    default:
+                        throw new MoonchesterException("[!] Unknown Command. Permitted Commands: todo (t), deadline (d), event (e), list, mark, unmark, delete (del), exit");
                 }
+
             } catch (MoonchesterException e) {
                 System.out.println(e.getMessage());
             }
@@ -107,7 +130,8 @@ public class MoonchesterHandler {
         System.out.println("[+] User's List");
         int counter = 1;
         for (Task item : userList.getList()) {
-            System.out.println(counter + ". " + item.printString());
+            // %-4s%s%n -> Left align the number string with width of 4 characters, %s%s is for the string and %n is newline
+            System.out.printf("%-4s%s%n", counter + ".", item.printString());
             counter++;
         }
         System.out.println("____________________________________________________________");
@@ -172,7 +196,6 @@ public class MoonchesterHandler {
         }
         
     }
-
 
     // Extract the dates from event userinput based on /to and /from
     private String[] eventExtractor(String eventArray) {

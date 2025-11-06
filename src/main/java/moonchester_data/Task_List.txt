@@ -6,4 +6,5 @@ E | 1 | badminton | 06/06/2025 2000 | 06/06/2025 2015
 E | 0 | football | 06/06/2025 1900 | 06/06/2025 1915
 E | 0 | badminton | 09/09/2025 1600 | 09/09/2025 1700
 E | 1 | table tennis | 09/09/2025 1900 | 09/09/2025 2000
-E | 0 | badminton game against moonchester | 26/10/2025 2000 | 27/10/2025 2200
+T | 0 | do work
+T | 0 | test
