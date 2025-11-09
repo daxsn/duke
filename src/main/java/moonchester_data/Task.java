@@ -31,6 +31,7 @@ public class Task {
      * @return description Description of the task
      */
     public String getDescription() {
+        assert this.description.isEmpty() == false : "Description of task should not be empty.";
         return this.description;
     }
 

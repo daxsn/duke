@@ -10,7 +10,7 @@ import moonchester_utils.MoonchesterDate;
  */
 public class Deadline extends Task {
 
-    protected LocalDateTime by;
+    public LocalDateTime by;
 
     /**
      * Constructs a Deadline task with a description and a "by" date (due date)

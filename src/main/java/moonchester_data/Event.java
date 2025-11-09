@@ -10,8 +10,8 @@ import moonchester_utils.MoonchesterDate;
  */
 public class Event extends Task {
 
-    protected LocalDateTime from;
-    protected LocalDateTime to;
+    public LocalDateTime from;
+    public LocalDateTime to;
 
     /**
      * Constructs an Event task with a description, start date/time, and end date/time

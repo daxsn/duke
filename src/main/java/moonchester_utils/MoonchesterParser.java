@@ -1,7 +1,11 @@
 package moonchester_utils;
 
 import java.util.ArrayList;
-import moonchester_data.*;
+
+import moonchester_data.Deadline;
+import moonchester_data.Event;
+import moonchester_data.Task;
+import moonchester_data.Todo;
 
 public class MoonchesterParser {
     // From the file, it converts Strings into Task objects
@@ -35,7 +39,7 @@ public class MoonchesterParser {
                 new_event.setStatus(isDone);
                 return new_event;
             default:
-                throw new IllegalArgumentException("Unknown task type: " + type);
+                throw new IllegalArgumentException("[!] Unknown task type: " + type);
         }
     }
     

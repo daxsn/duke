@@ -39,10 +39,12 @@ public class MoonchesterHandler {
                     case "exit": 
                         userExit(); 
                         return;
-                    case "mark": 
+                    case "mark":
+                    case "m":
                         handleMarking(splittedString, true); 
                         break;
-                    case "unmark": 
+                    case "unmark":
+                    case "um":
                         handleMarking(splittedString, false); 
                         break;
                     case "todo":
@@ -57,10 +59,12 @@ public class MoonchesterHandler {
                     case "e":
                         addEvent(joinFromSecond(splittedString)); 
                         break;
-                    case "date": 
+                    case "date":
+                    case "da":
                         queryDate(splittedString[1]); 
                         break;
-                    case "find": 
+                    case "find":
+                    case "f": 
                         queryKeyword(splittedString[1]); 
                         break;
                     case "delete":
@@ -74,7 +78,7 @@ public class MoonchesterHandler {
                         }
                         break;
                     default:
-                        throw new MoonchesterException("[!] Unknown Command. Permitted Commands: todo (t), deadline (d), event (e), list, mark, unmark, delete (del), exit");
+                        throw new MoonchesterException("[!] Unknown Command. Permitted Commands: todo (t), deadline (d), event (e), list, mark(m), unmark(um), delete (del), find (f), date(da),exit");
                 }
 
             } catch (MoonchesterException e) {
@@ -88,11 +92,31 @@ public class MoonchesterHandler {
     private void userGreeting() {
         String greetingMessage = """
         ____________________________________________________________
+        __  __                        _               _            
+        |  \\/  | ___   ___  _ __   ___| |__   ___  ___| |_ ___ _ __ 
+        | |\\/| |/ _ \\ / _ \\| '_ \\ / __| '_ \\ / _ \\/ __| __/ _ \\ '__|
+        | |  | | (_) | (_) | | | | (__| | | |  __/\\__ \\ ||  __/ |   
+        |_|  |_|\\___/ \\___/|_| |_|\\___|_| |_|\\___||___/\\__\\___|_|   
+                                                                    
         Hello! I am Moonchester, your personal chatbot!
+        List of commands:
+        Command/Shortcut
+        1. list
+        2. todo/t [description]
+        3. deadline/d [description] /by [date - dd/MM/yyyy HHmm or ddd]
+        4. event/e [description] /from [date - dd/MM/yyyy HHmm or dd/MM/yyyy or ddd] /to [date - dd/MM/yyyy HHmm or dd/MM/yyyy or ddd]
+        5. find/f [keyword]
+        6. date/da [date - dd/MM/yyyy HHmm or dd/MM/yyyy]
+        7. delete/del [S/N of list]
+        8. mark/m [S/N of list]
+        9. unmark/um [S/N of list]
+        10. exit
         What can I do for you?
         """;
         System.out.print(greetingMessage);
     }
+
+
     // When the user exits, it will print a banner AND saves the task list to the file
     private void userExit() {
         String exitMessage = """
@@ -175,7 +199,13 @@ public class MoonchesterHandler {
             }
 
             userList.getSpecificTask(index).setStatus(status);
-            String statusDescription = status ? "completed" : "not completed";
+            String statusDescription;
+
+            if (status == true) {
+                statusDescription = "completed";
+            } else {
+                statusDescription = "not completed";
+            }
             System.out.println("[+] Marked as " + statusDescription + " : " + userList.getSpecificTask(index).getDescription());
             System.out.println("____________________________________________________________");
 

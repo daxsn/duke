@@ -61,7 +61,7 @@ public static LocalDateTime convertToDateTime(String dateTimeString, int option)
         return LocalDateTime.parse(dateTimeString, formatter);
 
     } catch (DateTimeParseException e) {
-        System.out.println("[!] Unable to parse datetime - Please use 'dd/MM/yyyy HHmm', or weekday + optional time (e.g., mon 1200).");
+        System.out.println("[!] Unable to parse datetime - Please use 'dd/MM/yyyy HHmm', or weekday + optional time (e.g., mon 1200)");
         return null;
     }
 }
