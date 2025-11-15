@@ -8,7 +8,13 @@ import moonchester_data.Task;
 import moonchester_data.Todo;
 
 public class MoonchesterParser {
-    // From the file, it converts Strings into Task objects
+    /**
+     * Converts a list of strings read from a file into corresponding Task objects.
+     * Each line is parsed and formatted into a Task using the formatObjects helper method.
+     *
+     * @param lines The list of strings representing tasks from storage
+     * @return An ArrayList of Task objects corresponding to the input lines
+     */
     public ArrayList<Task> retrieveObjects(ArrayList<String> lines) {
         ArrayList<Task> tasks = new ArrayList<>();
         for (String line : lines) {
@@ -17,7 +23,15 @@ public class MoonchesterParser {
         return tasks;
     }
 
-    // Convert text format into objects so that it can be read by the program
+    /**
+     * Converts a single line of text from storage into a corresponding Task object.
+     * The line is expected to follow the format: "Type | Status | Description | [Dates]".
+     * Supports Todo, Deadline, and Event tasks. The task's completion status is also set.
+     *
+     * @param line A string representing a task in the storage file format
+     * @return A Task object corresponding to the input line
+     * @throws IllegalArgumentException if the task type is unknown (likely not to happen)
+     */
     private Task formatObjects(String line) {
         String[] parts = line.split(" \\| ");
         String type = parts[0];
@@ -44,7 +58,14 @@ public class MoonchesterParser {
     }
     
 
-    // Converts Task objects to String objects to save into the file
+    /**
+     * Converts a Task object into a string representation for
+     * saving to a file. The string format conists of the task type, completion
+     * status, description, and relevant dates for Deadline and Event tasks.
+     *
+     * @param task The Task object to convert
+     * @return A string representing the task in storage file format
+     */
     public String convertObjects(Task task) {
         int status = 0;
         if (task.getStatusIcon() == "X") {

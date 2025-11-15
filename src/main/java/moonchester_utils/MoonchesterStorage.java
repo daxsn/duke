@@ -15,7 +15,12 @@ public class MoonchesterStorage {
     private static final String filePath = "moonchester_data/Task_List.txt";
     private static final File taskListFile = new File(filePath);
     MoonchesterParser parser = new MoonchesterParser();
-
+    /**
+     * Static initialisation block that ensures the task list file and its
+     * parent directory exist when the class is loaded. If the parent
+     * directory does not exist, create a new one. If the task list file does
+     * not exist, create a new one. Errors during file creation are printed.,
+     */
     static {
         try {
             // Check for parent directory
@@ -33,6 +38,13 @@ public class MoonchesterStorage {
         }
     }
 
+    /**
+     * Reads all lines from the task list file and returns them as an ArrayList of strings.
+     * Each line represents a Task object. If the file is not found, an error
+     * message is printed.
+     *
+     * @return An ArrayList containing each line from the task list file
+     */
     public static ArrayList<String> readLines() {
         ArrayList<String> lines = new ArrayList<>();
         try (Scanner scanner = new Scanner(taskListFile)) {
@@ -46,7 +58,14 @@ public class MoonchesterStorage {
         return lines;
     }
 
-    // When user exits, this function will get called to update the file
+    /**
+     * Updates the task list file with the current tasks from the userList.
+     * This method overwrites the existing file content and writes each Task object
+     * in its string format. Called when the user exits the application.
+     *
+     * @param finalUserList The UserList containing all current tasks
+     * @throws IOException If an I/O error occurs while writing to the file
+     */
     public void updateActiveTasks(UserList finalUserList) throws IOException {
         new FileWriter(filePath, false).close();
         for (Task item : finalUserList.getList()) {
