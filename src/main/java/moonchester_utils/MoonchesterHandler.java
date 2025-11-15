@@ -70,11 +70,19 @@ public class MoonchesterHandler {
                         break;
                     case "date":
                     case "da":
-                        queryDate(splittedString[1]); 
+                        try {
+                            queryDate(splittedString[1]); 
+                        } catch (Exception e) {
+                            System.err.println("[!] Missing paramaters - your date query command should be: date/da [date dd/MM/yyyy]");
+                        }
                         break;
                     case "find":
                     case "f": 
-                        queryKeyword(splittedString[1]); 
+                        try {
+                            queryKeyword(splittedString[1]);
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            System.err.println("[!] Missing paramaters - your keyword query command should be: find/f [keyword]");
+                        }
                         break;
                     case "delete":
                     case "del":
@@ -103,7 +111,7 @@ public class MoonchesterHandler {
      */
     private void userGreeting() {
         String greetingMessage = """
-        ____________________________________________________________
+        ===================================================
         __  __                        _               _            
         |  \\/  | ___   ___  _ __   ___| |__   ___  ___| |_ ___ _ __ 
         | |\\/| |/ _ \\ / _ \\| '_ \\ / __| '_ \\ / _ \\/ __| __/ _ \\ '__|
@@ -138,7 +146,7 @@ public class MoonchesterHandler {
     private void userExit() {
         String exitMessage = """
         Hope to see you again soon, goodbye!
-        ____________________________________________________________
+        ===================================================
         """;
         try {
             // Only updates the task list AFTER the user exits the program
@@ -196,7 +204,7 @@ public class MoonchesterHandler {
             System.out.printf("%-4s%s%n", counter + ".", item.printString());
             counter++;
         }
-        System.out.println("____________________________________________________________");
+        System.out.println("===================================================");
     }
 
 
@@ -217,9 +225,9 @@ public class MoonchesterHandler {
             System.out.println(counter + ". " + item.printString());
             counter++;
         }
-        System.out.println("____________________________________________________________");
+        System.out.println("===================================================");
         System.out.println("Press \"ENTER\" to view your master list - You will need to view your master list to mark/unmark them :)");
-        System.out.print("____________________________________________________________");
+        System.out.print("===================================================");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         printList();
@@ -242,9 +250,9 @@ public class MoonchesterHandler {
             System.out.println(counter + ". " + item.printString());
             counter++;
         }
-        System.out.println("____________________________________________________________");
+        System.out.println("===================================================");
         System.out.println("Press \"ENTER\" to view your master list - You will need to view your master list to mark/unmark them :)");
-        System.out.print("____________________________________________________________");
+        System.out.print("===================================================");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         printList();
@@ -275,7 +283,7 @@ public class MoonchesterHandler {
                 statusDescription = "not completed";
             }
             System.out.println("[+] Marked as " + statusDescription + " : " + userList.getSpecificTask(index).getDescription());
-            System.out.println("____________________________________________________________");
+            System.out.println("===================================================");
 
         } catch (NumberFormatException e) {
             System.out.println("[!] Invalid task number.");
@@ -400,12 +408,17 @@ public class MoonchesterHandler {
     private void queryDate(String dateString) {
         // This function returns the list of tasks on a given date
         // Format - dd/MM/yyyy
-        LocalDateTime convertedDate = MoonchesterDate.convertToDateTime(dateString, 1);
-        if(convertedDate == null) {
-            return;
+        try {
+            LocalDateTime convertedDate = MoonchesterDate.convertToDateTime(dateString, 1);
+            if(convertedDate == null) {
+                return;
+            }
+            ArrayList<Task> queriedList = userList.getList(convertedDate);
+            printListDate(queriedList, dateString);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("[!] Missing paramaters - your date query command should be: date/da [date dd/MM/yyyy]");
         }
-        ArrayList<Task> queriedList = userList.getList(convertedDate);
-        printListDate(queriedList, dateString);
+
     }
 
     /**
@@ -414,8 +427,13 @@ public class MoonchesterHandler {
      * @param keyword Keyword specified by the user
      */
     private void queryKeyword(String keyword) {
-        ArrayList<Task> queriedList = userList.getList(keyword);
-        printListKeyword(queriedList,keyword);
+        try {
+            ArrayList<Task> queriedList = userList.getList(keyword);
+            printListKeyword(queriedList,keyword);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("[!] Missing paramaters - your keyword query command should be: find/f [keyword]");
+        }
+
     }
 
 }
