@@ -111,7 +111,7 @@ public class MoonchesterHandler {
      */
     private void userGreeting() {
         String greetingMessage = """
-        ===================================================
+        ____________________________________________________________
         __  __                        _               _            
         |  \\/  | ___   ___  _ __   ___| |__   ___  ___| |_ ___ _ __ 
         | |\\/| |/ _ \\ / _ \\| '_ \\ / __| '_ \\ / _ \\/ __| __/ _ \\ '__|
@@ -146,7 +146,7 @@ public class MoonchesterHandler {
     private void userExit() {
         String exitMessage = """
         Hope to see you again soon, goodbye!
-        ===================================================
+        ____________________________________________________________
         """;
         try {
             // Only updates the task list AFTER the user exits the program
@@ -204,7 +204,7 @@ public class MoonchesterHandler {
             System.out.printf("%-4s%s%n", counter + ".", item.printString());
             counter++;
         }
-        System.out.println("===================================================");
+        System.out.println("____________________________________________________________");
     }
 
 
@@ -225,9 +225,9 @@ public class MoonchesterHandler {
             System.out.println(counter + ". " + item.printString());
             counter++;
         }
-        System.out.println("===================================================");
+        System.out.println("____________________________________________________________");
         System.out.println("Press \"ENTER\" to view your master list - You will need to view your master list to mark/unmark them :)");
-        System.out.print("===================================================");
+        System.out.print("____________________________________________________________");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         printList();
@@ -250,9 +250,9 @@ public class MoonchesterHandler {
             System.out.println(counter + ". " + item.printString());
             counter++;
         }
-        System.out.println("===================================================");
+        System.out.println("____________________________________________________________");
         System.out.println("Press \"ENTER\" to view your master list - You will need to view your master list to mark/unmark them :)");
-        System.out.print("===================================================");
+        System.out.print("____________________________________________________________");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         printList();
@@ -283,7 +283,7 @@ public class MoonchesterHandler {
                 statusDescription = "not completed";
             }
             System.out.println("[+] Marked as " + statusDescription + " : " + userList.getSpecificTask(index).getDescription());
-            System.out.println("===================================================");
+            System.out.println("____________________________________________________________");
 
         } catch (NumberFormatException e) {
             System.out.println("[!] Invalid task number.");

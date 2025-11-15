@@ -39,7 +39,7 @@ public class UserList {
         assert this.getSize() > 0 : "Size of UserList should be more than 0";
         System.out.println("[+] Added : " + item.printString());
         System.out.println("[*] You have a total of " + this.getSize() + " task(s)");
-        System.out.println("===================================================");
+        System.out.println("____________________________________________________________");
     }
 
     /**
@@ -52,7 +52,7 @@ public class UserList {
         userList.remove(itemIndex);
         System.out.println("[+] Deleted : " + item.printString());
         System.out.println("[*] You have a total of " + this.getSize() + " task(s)");
-        System.out.println("===================================================");
+        System.out.println("____________________________________________________________");
     }
 
     /**
